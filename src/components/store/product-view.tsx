@@ -107,7 +107,7 @@ export function ProductView({ product, info }: { product: ProductViewData; info:
     kind === "unavailable"
       ? "No disponible por ahora"
       : split && split.madeToOrderQty > 0 && split.immediateQty === 0
-        ? "Encargar este bolso"
+        ? "Encargar"
         : "Agregar al carrito";
 
   return (
@@ -204,9 +204,9 @@ export function ProductView({ product, info }: { product: ProductViewData; info:
                 />
                 <span className="text-sm font-medium">
                   Personalizar
-                  {pc.personalizationPrice > 0 && (
-                    <span className="font-normal text-muted"> (+{formatCOP(pc.personalizationPrice)})</span>
-                  )}
+                  <span className="font-normal text-muted">
+                    {pc.personalizationPrice > 0 ? ` (+${formatCOP(pc.personalizationPrice)})` : " (incluido)"}
+                  </span>
                 </span>
               </label>
             )}
@@ -323,7 +323,12 @@ export function ProductView({ product, info }: { product: ProductViewData; info:
           {product.details && <Accordion title="Materiales y medidas"><Paragraphs text={product.details} /></Accordion>}
           {product.care && <Accordion title="Cuidados"><Paragraphs text={product.care} /></Accordion>}
           {info.shipping && <Accordion title="Envíos"><Paragraphs text={info.shipping} /></Accordion>}
-          {info.madeToOrder && <Accordion title="Fabricación bajo pedido"><Paragraphs text={info.madeToOrder} /></Accordion>}
+          {info.madeToOrder && (
+            <Accordion title="Fabricación bajo pedido">
+              <p>Plazo de fabricación de este producto: {info.mtoMin} a {info.mtoMax} días hábiles, sin contar el envío.</p>
+              <Paragraphs text={info.madeToOrder} />
+            </Accordion>
+          )}
           {info.returns && <Accordion title="Cambios y devoluciones"><Paragraphs text={info.returns} /></Accordion>}
         </div>
       </div>

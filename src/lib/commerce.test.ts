@@ -113,10 +113,24 @@ describe("WhatsApp", () => {
     expect(text).toContain("Disponibilidad: Fabricación bajo pedido (3-5 días hábiles)");
     expect(text).toContain("TOTAL: $349.000 COP");
     expect(text).toContain("Personalización: Ninguna");
+    expect(text).toContain("no incluyen el tiempo de envío");
     const url = whatsappUrl("3001234567", text);
     expect(url.startsWith("https://wa.me/573001234567?text=")).toBe(true);
     expect(decodeURIComponent(url.split("text=")[1])).toBe(text);
     expect(url).not.toMatch(/[\s\n#&]text/);
+  });
+  it("usa el plazo propio del producto cuando existe", () => {
+    const text = buildWhatsAppMessage({
+      storeName: "Dosha Bags",
+      total: 65000,
+      mtoMinDays: 3,
+      mtoMaxDays: 5,
+      lines: [
+        { name: "Bolso Siena", reference: "SIENA", color: "Negro", quantity: 1, unitPrice: 65000, subtotal: 65000,
+          personalization: null, immediateQty: 0, madeToOrderQty: 1, mtoMinDays: 5, mtoMaxDays: 8 },
+      ],
+    });
+    expect(text).toContain("Fabricación bajo pedido (5-8 días hábiles)");
   });
   it("slug sin tildes", () => {
     expect(slugify("Bolso Élodie Ñandú")).toBe("bolso-elodie-nandu");

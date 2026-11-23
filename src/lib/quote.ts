@@ -47,6 +47,8 @@ export async function quoteCart(items: CartItem[]): Promise<Quote> {
       immediateQty: 0,
       madeToOrderQty: 0,
       maxQty: 0,
+      mtoMinDays: p?.madeToOrderMinDays ?? settings.madeToOrderMinDays,
+      mtoMaxDays: p?.madeToOrderMaxDays ?? settings.madeToOrderMaxDays,
     };
     if (!p || !v || !p.isVisible || (p.collection && !p.collection.isVisible)) {
       return { ...base, error: "Este producto ya no está disponible. Elimínalo para continuar." };

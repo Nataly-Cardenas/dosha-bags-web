@@ -136,6 +136,9 @@ export type MessageLine = {
   personalization: string | null;
   immediateQty: number;
   madeToOrderQty: number;
+  /** Plazo propio del producto; si falta se usa el general. */
+  mtoMinDays?: number;
+  mtoMaxDays?: number;
 };
 
 export function buildWhatsAppMessage(input: {
@@ -148,13 +151,15 @@ export function buildWhatsAppMessage(input: {
   customerName?: string;
   customerCity?: string;
 }) {
-  const days = `${input.mtoMinDays}-${input.mtoMaxDays} días hábiles`;
+  const daysOf = (l: MessageLine) =>
+    `${l.mtoMinDays ?? input.mtoMinDays}-${l.mtoMaxDays ?? input.mtoMaxDays} días hábiles`;
   const out: string[] = [];
   out.push(`Hola, ${input.storeName}. Me gustaría realizar el siguiente pedido:`);
   if (input.code) out.push(`Solicitud: ${input.code}`);
   out.push("");
 
   input.lines.forEach((l, i) => {
+    const days = daysOf(l);
     out.push(`${i + 1}. ${l.name} (Ref. ${l.reference})`);
     out.push(`Color: ${l.color}`);
     out.push(`Cantidad: ${l.quantity}`);
@@ -175,7 +180,7 @@ export function buildWhatsAppMessage(input: {
 
   out.push(`TOTAL: ${formatCOP(input.total)} COP`);
   if (input.lines.some((l) => l.madeToOrderQty > 0)) {
-    out.push(`(Los productos bajo pedido tardan ${days} en fabricarse, sin contar el envío.)`);
+    out.push("(Los tiempos de fabricación bajo pedido no incluyen el tiempo de envío.)");
   }
   if (input.customerName || input.customerCity) {
     out.push("");

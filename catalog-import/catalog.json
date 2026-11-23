@@ -1,0 +1,226 @@
+{
+  "_nota": "Catálogo real de Dosha Bags transcrito del PDF 'Catalogo_Dosha_Completo'. Precios, medidas y textos tomados del catálogo. Los NOMBRES de los colores se asignaron según el tono de cada círculo (el catálogo no los nombra) y se pueden ajustar en Panel → Categorías y colores. Se importa automáticamente una sola vez, cuando la tienda no tiene productos.",
+  "pvc": "Fabricado con material PVC, un cuero vegano que no se pela ni se descascara.",
+  "colors": {
+    "Blanco": "#F2F0EC",
+    "Negro": "#161616",
+    "Café": "#4B3224",
+    "Café chocolate": "#3E1A16",
+    "Café oliva": "#6B5A3A",
+    "Nude": "#E8D3C3",
+    "Crema": "#F3EFD9",
+    "Terracota": "#C25A26",
+    "Vino": "#7A1418",
+    "Rojo": "#C8101A",
+    "Rosado": "#F2A6D8",
+    "Plata": "#BFC0C2",
+    "Verde": "#5E8C5E",
+    "Amarillo": "#F5E23A",
+    "Azul rey": "#1F2BD6",
+    "Azul oscuro": "#0F1A66",
+    "Palo de rosa": "#8E5B4E",
+    "Durazno": "#F5D3C3",
+    "Dorado": "#B8A12A",
+    "Turquesa": "#2BB3C9",
+    "Perla": "#EDEBE3"
+  },
+  "categories": ["Bolsos", "Totebags", "Morrales", "Neceseres", "Accesorios"],
+  "collections": [
+    {
+      "slug": "bordados-personalizados",
+      "name": "Bordados personalizados",
+      "description": "Totebags, morrales y neceseres con tus iniciales o tu nombre bordados.",
+      "image": "premium-negro",
+      "featured": true
+    },
+    {
+      "slug": "bolsos-de-diario",
+      "name": "Bolsos de diario",
+      "description": "Bolsos para cada ocasión, de lo casual a lo elegante.",
+      "image": "essential-vino",
+      "featured": true
+    },
+    {
+      "slug": "combos-y-accesorios",
+      "name": "Combos y accesorios",
+      "description": "Tarjeteros, combos y detalles para regalar o regalarte.",
+      "image": "combo-cafe",
+      "featured": true
+    }
+  ],
+  "initials": {
+    "label": "Iniciales bordadas",
+    "max": 3,
+    "note": "El bordado de 2 a 3 iniciales está incluido en el precio."
+  },
+  "products": [
+    {
+      "ref": "MILA", "name": "Bolso Mila", "slug": "bolso-mila", "price": 120000,
+      "category": "Bolsos", "collection": "bolsos-de-diario", "featured": true,
+      "tagline": "Perfecto para todo tipo de ocasión.",
+      "colors": ["Blanco", "Negro", "Café", "Nude", "Crema", "Terracota", "Vino", "Rosado"],
+      "images": [["mila-1", "Blanco"], ["mila-2", "Blanco"]]
+    },
+    {
+      "ref": "ESSENTIAL", "name": "Bag Essential", "slug": "bag-essential", "price": 85000,
+      "category": "Bolsos", "collection": "bolsos-de-diario", "featured": true,
+      "measures": "25 cm × 17 cm × 12,5 cm de fondo",
+      "colors": ["Vino", "Negro", "Café", "Nude", "Crema", "Plata"],
+      "images": [["essential-vino", "Vino"], ["essential-negro", "Negro"], ["essential-cafe", "Café"], ["essential-nude", "Nude"], ["essential-crema", "Crema"], ["essential-plata", "Plata"]]
+    },
+    {
+      "ref": "TOTEBAG-GRANDE", "name": "Totebag Grande", "slug": "totebag-grande", "price": 120000,
+      "category": "Totebags", "collection": "bordados-personalizados", "featured": true,
+      "tagline": "Un bolso para cada plan.",
+      "measures": "39 cm × 39 cm",
+      "includes": "Incluye 2-3 iniciales bordadas y monedero.",
+      "initials": true,
+      "colors": ["Blanco", "Negro", "Rosado", "Terracota", "Vino", "Verde", "Palo de rosa"],
+      "images": [["totebag-grande-1", "Blanco"]]
+    },
+    {
+      "ref": "TOTEBAG-MINI", "name": "Totebag Mini", "slug": "totebag-mini", "price": 105000,
+      "category": "Totebags", "collection": "bordados-personalizados", "featured": true,
+      "tagline": "Tu esencial de todos los días.",
+      "measures": "26 cm × 19 cm",
+      "includes": "Incluye 2-3 iniciales bordadas y monedero.",
+      "initials": true,
+      "colors": ["Negro", "Terracota", "Rosado", "Blanco", "Amarillo"],
+      "images": [["totebag-mini-1", "Negro"]]
+    },
+    {
+      "ref": "SIENA", "name": "Bolso Siena", "slug": "bolso-siena", "price": 65000,
+      "category": "Bolsos", "collection": "bolsos-de-diario",
+      "mtoDays": [5, 8],
+      "colors": ["Blanco", "Negro", "Café", "Terracota", "Rojo", "Vino"],
+      "images": [["siena-1", "Blanco"], ["siena-2", "Blanco"]]
+    },
+    {
+      "ref": "VICTORIA", "name": "Bag Victoria", "slug": "bag-victoria", "price": 180000,
+      "category": "Bolsos", "collection": "bolsos-de-diario", "featured": true,
+      "description": "Nuestro bolso está elaborado en lona impermeable y diseñado para brindarte comodidad y funcionalidad en tu día a día. Cuenta con un compartimiento especial para portátil, un espacio para llevar tu termo de agua y un accesorio para asegurar tus llaves.\n\nAdemás, incluye dos bolsillos laterales con cierre para guardar tus pertenencias de forma segura.",
+      "material": "Lona impermeable.",
+      "measures": "52 cm × 31 cm × 16 cm de fondo",
+      "mtoDays": [5, 8],
+      "colors": ["Negro", "Café", "Nude"],
+      "images": [["victoria-cafe", "Café"], ["victoria-nude", "Nude"], ["victoria-negro", "Negro"], ["victoria-2", null]]
+    },
+    {
+      "ref": "PREMIUM", "name": "Bolso Premium", "slug": "bolso-premium", "price": 150000,
+      "category": "Totebags", "collection": "bordados-personalizados", "featured": true,
+      "measures": "56 cm × 51 cm",
+      "includes": "Incluye 2-3 iniciales bordadas, trae un bolsillo interno y viene con broches a los lados para mayor seguridad.",
+      "initials": true,
+      "colors": ["Blanco", "Negro", "Vino", "Café"],
+      "images": [["premium-negro", "Negro"], ["premium-blanco", "Blanco"]]
+    },
+    {
+      "ref": "PREMIUM-II", "name": "Bolso Premium II", "slug": "bolso-premium-ii", "price": 170000,
+      "category": "Totebags", "collection": "bordados-personalizados",
+      "measures": "56 cm × 51 cm",
+      "includes": "Incluye 2-3 iniciales bordadas, viene con cierre para mayor seguridad e incluye compartimento para el computador.",
+      "initials": true,
+      "colors": ["Blanco", "Negro", "Vino", "Café"],
+      "images": [["premium-ii-blanco", "Blanco"], ["premium-ii-2", null]]
+    },
+    {
+      "ref": "AURA", "name": "Bolso Aura", "slug": "bolso-aura", "price": 130000,
+      "category": "Totebags", "collection": "bordados-personalizados",
+      "measures": "30 cm × 42 cm",
+      "includes": "Incluye 2-3 iniciales bordadas, trae un bolsillo interno y viene con cierre para mayor seguridad.",
+      "initials": true,
+      "colors": ["Blanco", "Negro", "Vino", "Café"],
+      "images": [["aura-negro", "Negro"], ["aura-2", null]]
+    },
+    {
+      "ref": "NOVA", "name": "Morral Nova", "slug": "morral-nova", "price": 250000,
+      "category": "Morrales", "collection": "bordados-personalizados",
+      "measures": "18 cm × 17 cm",
+      "includes": "Incluye 2-3 iniciales bordadas.",
+      "initials": true,
+      "colors": ["Negro"],
+      "images": [["nova-negro", "Negro"]]
+    },
+    {
+      "ref": "ROMA", "name": "Morral Roma", "slug": "morral-roma", "price": 195000,
+      "category": "Morrales", "collection": "bordados-personalizados",
+      "measures": "29 cm × 41 cm",
+      "includes": "Incluye 2-3 iniciales bordadas.",
+      "initials": true,
+      "colors": ["Rosado", "Blanco", "Negro"],
+      "images": [["roma-1", "Blanco"]]
+    },
+    {
+      "ref": "NECESER", "name": "Neceser", "slug": "neceser", "price": 65000,
+      "category": "Neceseres", "collection": "bordados-personalizados", "featured": true,
+      "measures": "30 cm × 20 cm",
+      "includes": "Incluye el bordado: puede ser tu nombre o, si lo prefieres, solo las iniciales.",
+      "personalization": { "label": "Nombre o iniciales bordadas", "max": 15, "note": "El bordado está incluido en el precio." },
+      "colors": ["Crema", "Negro", "Café", "Rosado", "Azul rey"],
+      "images": [["neceser-cafe", "Café"], ["neceser-rosado", "Rosado"], ["neceser-azul", "Azul rey"]]
+    },
+    {
+      "ref": "ITALY", "name": "Bolso Italy", "slug": "bolso-italy", "price": 160000,
+      "category": "Bolsos", "collection": "bolsos-de-diario", "featured": true,
+      "tagline": "De lo casual a lo elegante, siempre contigo.",
+      "measures": "54 cm × 45 cm",
+      "includes": "Incluye monedero y mini cosmetiquera.",
+      "colors": ["Café", "Negro", "Vino"],
+      "images": [["italy-vino", "Vino"]]
+    },
+    {
+      "ref": "EJECUTIVA", "name": "Bolso Ejecutiva", "slug": "bolso-ejecutiva", "price": 160000,
+      "category": "Bolsos", "collection": "bolsos-de-diario",
+      "tagline": "El toque chic que necesitas.",
+      "includes": "Incluye strap para que lo puedas utilizar como manos libres.",
+      "colors": ["Verde", "Negro", "Café"],
+      "images": [["ejecutiva-negro", "Negro"]]
+    },
+    {
+      "ref": "TOALLA", "name": "Toalla personalizada", "slug": "toalla-personalizada", "price": 80000,
+      "category": "Accesorios", "collection": "bordados-personalizados",
+      "description": "Nuestras toallas son 100% gruesas, están disponibles en diferentes colores y las puedes personalizar con el logo, nombre o diseño que desees.",
+      "material": "",
+      "measures": "70 cm × 130 cm",
+      "personalization": { "label": "Nombre a bordar", "max": 15, "note": "Si prefieres un logo o un diseño especial, cuéntanos en el mensaje de WhatsApp." },
+      "colors": ["Blanco", "Crema"],
+      "images": [["toalla-blanco", "Blanco"]]
+    },
+    {
+      "ref": "BAUL", "name": "Bolso Baúl", "slug": "bolso-baul", "price": 120000,
+      "category": "Bolsos", "collection": "bolsos-de-diario",
+      "measures": "38 cm × 20 cm",
+      "includes": "Incluye el strap largo para que lo puedas utilizar terciado.",
+      "colors": ["Vino", "Terracota", "Negro", "Café chocolate", "Rojo", "Café oliva", "Blanco"],
+      "images": [["baul-vino", "Vino"], ["baul-negro", "Negro"], ["baul-rojo", "Rojo"], ["baul-3", "Café oliva"], ["baul-4", null], ["baul-6", null]]
+    },
+    {
+      "ref": "TOTEBAG-NECESER", "name": "Totebag Grande + Neceser de obsequio", "slug": "totebag-grande-neceser", "price": 160000,
+      "category": "Totebags", "collection": "bordados-personalizados",
+      "includes": "Incluye 2 iniciales bordadas, monedero y un neceser de obsequio del color que desees.",
+      "personalization": {
+        "label": "Iniciales bordadas", "max": 2,
+        "note": "El bordado de 2 iniciales está incluido en el precio.",
+        "options": [{ "label": "Color del neceser de obsequio", "choices": ["Crema", "Negro", "Café", "Rosado", "Azul rey"] }]
+      },
+      "colors": ["Blanco", "Negro", "Rosado", "Terracota", "Vino", "Verde", "Palo de rosa"],
+      "images": [["tote-neceser-1", "Blanco"], ["tote-neceser-2", null]]
+    },
+    {
+      "ref": "COMBO-1", "name": "Combo #1", "slug": "combo-1", "price": 40000,
+      "category": "Accesorios", "collection": "combos-y-accesorios", "featured": true,
+      "description": "Set de tres piezas a juego.",
+      "material": "",
+      "colors": ["Nude", "Negro", "Durazno", "Azul oscuro", "Dorado", "Terracota", "Café", "Rojo", "Blanco"],
+      "images": [["combo-cafe", "Café"], ["combo-blanco", "Blanco"], ["combo-durazno", "Durazno"], ["combo-terracota", "Terracota"], ["combo-dorado", "Dorado"], ["combo-negro", "Negro"]]
+    },
+    {
+      "ref": "TARJETERO", "name": "Tarjetero de cuero", "slug": "tarjetero-de-cuero", "price": 45000,
+      "category": "Accesorios", "collection": "combos-y-accesorios",
+      "description": "Nuestros tarjeteros están fabricados con material 100% de cuero.",
+      "material": "",
+      "colors": ["Dorado", "Rosado", "Blanco", "Turquesa", "Vino", "Negro", "Perla", "Café"],
+      "images": [["tarjetero-vino", "Vino"], ["tarjetero-dorado", "Dorado"], ["tarjetero-rosado", "Rosado"], ["tarjetero-blanco", "Blanco"], ["tarjetero-turquesa", "Turquesa"], ["tarjetero-negro", "Negro"], ["tarjetero-perla", "Perla"], ["tarjetero-cafe", "Café"]]
+    }
+  ]
+}

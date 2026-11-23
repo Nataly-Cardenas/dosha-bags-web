@@ -3,7 +3,24 @@
 El panel está en **`tudominio.com/admin`**. Funciona en computador y en celular.
 Todo lo que guardes se ve en la tienda **al instante**; no hace falta llamar a nadie ni «publicar» nada más.
 
-## Orden recomendado para cargar el catálogo
+## Después de importar el catálogo (revisar una sola vez)
+
+La tienda llega con los **19 productos del catálogo PDF**: nombres, precios, medidas, materiales, lo que incluye cada uno,
+colecciones, categorías, colores, bordados y fotos. Antes de anunciarla, revisa:
+
+1. **Inventario:** todos los colores empiezan **sin unidades**, así que se muestran como «Bajo pedido».
+   En **Inventario** escribe las unidades que tienes listas para entrega inmediata.
+2. **Nombres de los colores:** el catálogo muestra los colores solo como círculos. Los nombres
+   (Nude, Terracota, Palo de rosa, Café oliva…) los asignó la desarrolladora según el tono.
+   Corrígelos en **Categorías y colores**: el cambio se aplica a todos los productos.
+3. **Fotos:** se recortaron del PDF, así que su resolución es limitada. Reemplázalas por fotos originales
+   cuando puedas (Productos → Editar → Fotografías). La Bag Essential ya tiene fotos de mejor calidad.
+4. **Plazos:** Siena y Victoria tienen 5–8 días hábiles (según el catálogo); el resto usa el plazo general de 3–5.
+5. **Bordados:** en los productos que incluyen iniciales, el bordado está activado y sin costo adicional.
+   En el Neceser y la Toalla se permite un nombre de hasta 15 letras: ajusta el límite si lo necesitas.
+6. **Textos provisionales** de Nosotros, Envíos y Cambios en **Ajustes**.
+
+## Orden recomendado para cargar productos nuevos
 
 1. **Categorías y colores** → crea las categorías (Bolsos, Estuches…) y los colores que usas (Vino, Negro, Taupe…).
    Usa siempre el mismo nombre para el mismo color: así funcionan bien los filtros de la tienda.

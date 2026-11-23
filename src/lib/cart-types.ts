@@ -41,6 +41,8 @@ export type QuotedLine = {
   immediateQty: number;
   madeToOrderQty: number;
   maxQty: number;
+  mtoMinDays: number;
+  mtoMaxDays: number;
 };
 
 export type Quote = {

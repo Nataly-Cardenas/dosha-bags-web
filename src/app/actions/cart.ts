@@ -61,6 +61,8 @@ export async function checkoutAction(
       personalization: l.personalization,
       immediateQty: l.immediateQty,
       madeToOrderQty: l.madeToOrderQty,
+      mtoMinDays: l.mtoMinDays,
+      mtoMaxDays: l.mtoMaxDays,
     }));
 
     const code = await db.transaction(async (tx) => {

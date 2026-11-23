@@ -126,7 +126,11 @@ export function CartView() {
     );
   }
 
-  const days = quote ? `${quote.mtoMinDays} a ${quote.mtoMaxDays} días hábiles` : "";
+  const mtoLines = quote?.lines.filter((l) => l.ok && l.madeToOrderQty > 0) ?? [];
+  const minD = Math.min(...mtoLines.map((l) => l.mtoMinDays));
+  const maxD = Math.max(...mtoLines.map((l) => l.mtoMaxDays));
+  const days = mtoLines.length ? (minD === maxD ? `${minD} días hábiles` : `${minD} a ${maxD} días hábiles`) : "";
+  const lineDays = (l: { mtoMinDays: number; mtoMaxDays: number }) => `${l.mtoMinDays} a ${l.mtoMaxDays} días hábiles`;
 
   return (
     <div className="grid gap-10 pt-8 lg:grid-cols-[1fr_380px] lg:gap-16">
@@ -164,11 +168,11 @@ export function CartView() {
                     <dd>
                       {l.madeToOrderQty === 0 && <span className="text-success">Entrega inmediata</span>}
                       {l.madeToOrderQty > 0 && l.immediateQty === 0 && (
-                        <span className="text-plum">Bajo pedido · fabricación {days}</span>
+                        <span className="text-plum">Bajo pedido · fabricación {lineDays(l)}</span>
                       )}
                       {l.madeToOrderQty > 0 && l.immediateQty > 0 && (
                         <span className="text-plum">
-                          {l.immediateQty} inmediata(s) · {l.madeToOrderQty} bajo pedido ({days})
+                          {l.immediateQty} inmediata(s) · {l.madeToOrderQty} bajo pedido ({lineDays(l)})
                         </span>
                       )}
                     </dd>

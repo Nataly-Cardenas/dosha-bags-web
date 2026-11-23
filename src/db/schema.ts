@@ -64,6 +64,9 @@ export const settings = pgTable("settings", {
   madeToOrderMinDays: integer("mto_min_days").notNull().default(3),
   madeToOrderMaxDays: integer("mto_max_days").notNull().default(5),
 
+  /** Fecha en que se cargó automáticamente el catálogo inicial (evita repetirlo). */
+  catalogImportedAt: timestamp("catalog_imported_at", { withTimezone: true }),
+
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -128,6 +131,10 @@ export const products = pgTable(
     personalizationOptions: jsonb("personalization_options").$type<PersonalizationOption[]>().notNull().default([]),
     personalizationNote: text("personalization_note").notNull().default(""),
 
+    /** Plazo de fabricación bajo pedido propio de este producto (vacío = el general de Ajustes). */
+    madeToOrderMinDays: integer("mto_min_days"),
+    madeToOrderMaxDays: integer("mto_max_days"),
+
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -188,6 +195,8 @@ export type OrderLineSnapshot = {
   personalization: string | null;
   immediateQty: number;
   madeToOrderQty: number;
+  mtoMinDays?: number;
+  mtoMaxDays?: number;
 };
 
 export const orders = pgTable("orders", {

@@ -122,8 +122,8 @@ export default async function ProductPage({ params }: Props) {
           shipping: settings.shippingText,
           madeToOrder: settings.madeToOrderText,
           returns: settings.returnsText,
-          mtoMin: settings.madeToOrderMinDays,
-          mtoMax: settings.madeToOrderMaxDays,
+          mtoMin: product.madeToOrderMinDays ?? settings.madeToOrderMinDays,
+          mtoMax: product.madeToOrderMaxDays ?? settings.madeToOrderMaxDays,
         }}
       />
       {related.length > 0 && (

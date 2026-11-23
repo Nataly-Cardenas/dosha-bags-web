@@ -55,7 +55,9 @@ Nunca compartas contraseñas ni claves por chat: todas se escriben directamente 
 1. Ve a **Deployments**, abre el último despliegue y pulsa **⋯ → Redeploy**.
 2. Al terminar verás el aviso **Ready**. En el registro del despliegue debe aparecer:
    `✔ Migraciones aplicadas` y `✔ Cuenta administradora creada para …`.
-3. Abre la dirección de tu tienda. La tienda aparecerá **vacía**: es lo correcto, todavía no hay productos.
+3. Abre la dirección de tu tienda. En el primer despliegue se cargan **automáticamente los 19 productos del catálogo**
+   con sus fotos (en el registro verás `✔ Catálogo importado: 19 productos con sus fotos`).
+   Si conectaste Blob después del primer despliegue, haz otro Redeploy y se importarán entonces.
 
 ## Paso 6 · Primer ingreso al panel
 
@@ -64,7 +66,8 @@ Nunca compartas contraseñas ni claves por chat: todas se escriben directamente 
 3. Ve a **Ajustes de la tienda** y configura **el número de WhatsApp** (sin él no se pueden enviar pedidos), Instagram,
    imagen de portada, textos de «Nosotros» y las políticas de envío, cambios y devoluciones.
    Los textos marcados con **[Texto provisional]** deben reemplazarse.
-4. Crea las **categorías y colores**, luego las **colecciones** y por último los **productos** (ver `MANUAL-PANEL.md`).
+4. Revisa el catálogo importado (ver «Después de importar el catálogo» en `MANUAL-PANEL.md`):
+   nombres de colores, inventario real y fotos definitivas.
 
 > Por seguridad, puedes borrar la variable `ADMIN_INITIAL_PASSWORD` en Vercel después del primer ingreso.
 > Solo se usa cuando no existe ninguna cuenta administradora.

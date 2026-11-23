@@ -36,7 +36,10 @@ src/
   lib/storage.ts      Subida y borrado de fotos
 drizzle/              Migraciones SQL
 scripts/migrate.mjs   Aplica migraciones, crea la configuración y la primera administradora (se ejecuta en cada build)
-scripts/seed-demo.mjs Productos DE EJEMPLO para desarrollo local (DEMO-01…05)
+scripts/import-catalog.mjs Importa el catálogo real (catalog-import/) la primera vez que la tienda está vacía
+scripts/crop-catalog.mjs   Herramienta usada para recortar las fotos del PDF del catálogo
+scripts/seed-demo.mjs Productos DE EJEMPLO para desarrollo local (DEMO-01…05), ya no necesarios
+catalog-import/       catalog.json (19 productos del catálogo PDF) y sus fotos
 scripts/e2e.mjs       Prueba de extremo a extremo con navegador real
 ```
 
@@ -45,7 +48,11 @@ scripts/e2e.mjs       Prueba de extremo a extremo con navegador real
 - **Disponibilidad por color** (`availabilityOf`): `in_stock` con unidades → entrega inmediata; sin unidades → bajo pedido si
   «Permitir encargo» está activo, si no → no disponible; `made_to_order` → siempre bajo pedido; `unavailable` → no disponible.
   Si se piden más unidades de las que hay, se reparten (p. ej. 1 inmediata + 1 bajo pedido).
-- **Plazo de fabricación**: 3–5 días hábiles por defecto, editable en Ajustes; se comunica separado del envío.
+- **Plazo de fabricación**: 3–5 días hábiles por defecto, editable en Ajustes; cada producto puede tener su propio plazo
+  (Siena y Victoria: 5–8, según el catálogo). Siempre se comunica separado del envío.
+- **Catálogo inicial**: en el primer despliegue con la base vacía, `migrate.mjs` importa `catalog-import/catalog.json`
+  y sube sus fotos a Blob. Queda registrado en `settings.catalog_imported_at` y no se repite.
+  `npm run db:catalog` agrega manualmente productos del archivo cuya referencia no exista.
 - **Precios fiables**: el navegador solo guarda IDs, cantidades y el texto de personalización. El servidor recalcula
   precios, extras de personalización y disponibilidad desde la base de datos en cada vista del carrito y al finalizar.
 - **WhatsApp**: el servidor genera el mensaje y el enlace `wa.me` (codificado con `encodeURIComponent`). La solicitud se registra
@@ -60,7 +67,7 @@ Requisitos: Node 20+ y PostgreSQL.
 cp .env.example .env      # y ajusta DATABASE_URL, ADMIN_EMAIL, ADMIN_INITIAL_PASSWORD
 npm install
 npm run db:migrate        # crea tablas, configuración y la primera administradora
-npm run db:demo           # (opcional) productos de ejemplo DEMO-xx; quitar con: npm run db:demo -- --clean
+                          # …y la primera vez importa el catálogo real (19 productos)
 npm run dev               # http://localhost:3000  ·  panel: http://localhost:3000/admin
 ```
 
@@ -71,7 +78,7 @@ Sin `BLOB_READ_WRITE_TOKEN`, las fotos se guardan en `.uploads/` (solo desarroll
 ```bash
 npm run lint              # comprobación de tipos
 npm test                  # pruebas unitarias de reglas de negocio (13)
-npm run e2e               # con el servidor en marcha y los datos de ejemplo cargados (29 pasos)
+npm run e2e               # con el servidor en marcha y el catálogo real cargado (29 pasos)
 ```
 
 ### Cambiar el esquema de la base de datos

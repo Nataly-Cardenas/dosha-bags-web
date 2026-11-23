@@ -99,7 +99,7 @@ await step("Formulario de nuevo producto con color nuevo, foto y personalizació
   await page.fill("#p-name", NAME);
   await page.fill("#p-ref", "E2E-01");
   await page.fill("#p-price", "150000");
-  await page.selectOption("#p-col", { label: "Esencial (ejemplo)" });
+  await page.selectOption("#p-col", { label: "Bolsos de diario" });
   await page.fill("#p-desc", "Descripción de prueba.\n\nSegundo párrafo.");
   // Color nuevo creado en línea
   const variant = page.locator("li", { hasText: "Color 1" }).first();
@@ -137,9 +137,9 @@ await step("Búsqueda en la tienda encuentra el producto", async () => {
   await page.getByRole("heading", { name: NAME }).waitFor();
   expect((await page.locator("article").count()) === 1, "la búsqueda debería devolver 1 producto");
 });
-await step("Filtro por disponibilidad «bajo pedido» incluye el estuche de ejemplo", async () => {
+await step("Filtro por disponibilidad «bajo pedido» incluye el Neceser", async () => {
   await page.goto(`${BASE}/tienda?disponibilidad=encargo`);
-  await page.getByRole("heading", { name: "Estuche cosmetiquera (ejemplo)" }).waitFor();
+  await page.getByRole("heading", { name: "Neceser", exact: true }).waitFor();
 });
 
 console.log("\nCarrito: personalización, encargo y varias líneas");
@@ -159,24 +159,24 @@ await step("Cantidad 2 con 1 en inventario → 1 inmediata + 1 bajo pedido", asy
   await page.getByRole("button", { name: "Agregar al carrito" }).click();
   await page.getByText("Agregado al carrito").waitFor();
 });
-await step("Estuche bajo pedido con nombre", async () => {
-  await page.goto(`${BASE}/producto/ejemplo-estuche`);
+await step("Neceser bajo pedido con nombre bordado (incluido)", async () => {
+  await page.goto(`${BASE}/producto/neceser`);
   await page.getByText("Disponible bajo pedido").waitFor();
   await page.getByText("Personalizar").click();
   await page.fill("#pers-text", "Ana");
-  await page.getByRole("button", { name: "Encargar este bolso" }).click();
+  await page.getByRole("button", { name: "Encargar" }).click();
   await page.getByText("Agregado al carrito").waitFor();
 });
-await step("El carrito calcula el total en el servidor: 2×160.000 + 99.000 = $419.000", async () => {
+await step("El carrito calcula el total en el servidor: 2×160.000 + 65.000 = $385.000", async () => {
   await page.goto(`${BASE}/carrito`);
-  await page.getByText("$419.000").first().waitFor();
+  await page.getByText("$385.000").first().waitFor();
   await page.getByText("1 inmediata(s) · 1 bajo pedido").waitFor();
   await page.getByText("Tu pedido incluye productos").waitFor();
   await shot(page, "carrito-escritorio");
 });
 await step("El carrito persiste al recargar", async () => {
   await page.reload();
-  await page.getByText("$419.000").first().waitFor();
+  await page.getByText("$385.000").first().waitFor();
 });
 await step("Precio manipulado en el navegador no tiene efecto (el navegador no guarda precios)", async () => {
   const stored = await page.evaluate(() => localStorage.getItem("dosha-cart-v1"));
@@ -203,12 +203,12 @@ await step("Abre wa.me con el mensaje completo y codificado", async () => {
     `1. ${NAME} (Ref. E2E-01)`,
     'Personalización: "AB"',
     "Disponibilidad: 1 para entrega inmediata y 1 bajo pedido (fabricación 3-5 días hábiles)",
-    "2. Estuche cosmetiquera (ejemplo) (Ref. DEMO-03)",
+    "2. Neceser (Ref. NECESER)",
     'Personalización: "Ana"',
     "Disponibilidad: Fabricación bajo pedido (3-5 días hábiles)",
     "Precio unitario: $160.000",
     "Subtotal: $320.000",
-    "TOTAL: $419.000 COP",
+    "TOTAL: $385.000 COP",
     "Nombre: Laura Prueba",
     "Ciudad: Medellín",
     "Quedo pendiente de confirmar disponibilidad, envío y forma de pago. ¡Gracias!",
@@ -228,7 +228,7 @@ await step("La solicitud queda «Pendiente de confirmar» en el panel (no pagada
 await step("Vaciar carrito después de enviar", async () => {
   await page.goto(`${BASE}/carrito`);
   // Tras navegar, la pantalla de confirmación ya no está; el carrito sigue para reenviar si hace falta.
-  await page.getByText("$419.000").first().waitFor();
+  await page.getByText("$385.000").first().waitFor();
   await page.evaluate(() => localStorage.removeItem("dosha-cart-v1"));
   await page.reload();
   await page.getByText("Tu carrito está vacío").waitFor();
@@ -328,12 +328,17 @@ await step("Menú móvil, compra rápida y carrito en celular", async () => {
   await m.getByRole("dialog", { name: "Filtros" }).getByText("Entrega inmediata").click();
   await m.waitForURL(/disponibilidad=inmediata/);
   await m.getByRole("button", { name: /^Ver \d+ productos?$/ }).click();
-  await m.goto(`${BASE}/producto/ejemplo-bolso-tote`);
-  await m.getByRole("radio", { name: "Plum" }).click();
-  await m.getByText("$369.000").first().waitFor();
-  await m.getByRole("button", { name: "Agregar al carrito" }).click();
+  await m.goto(`${BASE}/producto/bag-essential`);
+  await m.getByRole("radio", { name: /^Negro/ }).click();
+  await m.getByRole("button", { name: "Encargar" }).click();
+  await m.getByText("Agregado al carrito").waitFor();
+  await m.goto(`${BASE}/producto/bolso-siena`);
+  await m.getByText("Lo fabricamos para ti en 5 a 8 días hábiles").waitFor();
+  await m.getByRole("button", { name: "Encargar" }).click();
   await m.getByRole("link", { name: "Ver carrito" }).click();
-  await m.getByText("$369.000").first().waitFor();
+  await m.getByText("$150.000").first().waitFor();
+  await m.getByText("Bajo pedido · fabricación 5 a 8 días hábiles").waitFor();
+  await m.getByText("Bajo pedido · fabricación 3 a 5 días hábiles").waitFor();
   const overflow = await m.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(!overflow, "hay desplazamiento horizontal en celular");
   await shot(m, "carrito-movil");

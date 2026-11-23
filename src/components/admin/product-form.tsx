@@ -38,6 +38,8 @@ type Existing = {
   personalizationRequired: boolean;
   personalizationNote: string;
   personalizationOptions: PersonalizationOption[];
+  madeToOrderMinDays: number | null;
+  madeToOrderMaxDays: number | null;
   variants: { id: string; colorId: string; status: VariantStatus; stock: number; allowMadeToOrder: boolean; priceOverride: number | null }[];
   images: { url: string; alt: string; variantId: string | null; width: number | null; height: number | null }[];
 };
@@ -77,6 +79,8 @@ export function ProductForm({ options, product, created }: { options: Options; p
     personalizationCharset: (product?.personalizationCharset ?? "letters") as "letters" | "letters_numbers",
     personalizationRequired: product?.personalizationRequired ?? false,
     personalizationNote: product?.personalizationNote ?? "",
+    mtoMin: product?.madeToOrderMinDays == null ? "" : String(product.madeToOrderMinDays),
+    mtoMax: product?.madeToOrderMaxDays == null ? "" : String(product.madeToOrderMaxDays),
   }));
   const [persOptions, setPersOptions] = useState<{ label: string; choices: { name: string; price: string; hex: string }[] }[]>(
     () =>
@@ -173,6 +177,8 @@ export function ProductForm({ options, product, created }: { options: Options; p
       personalizationCharset: f.personalizationCharset,
       personalizationRequired: f.personalizationRequired,
       personalizationNote: f.personalizationNote,
+      madeToOrderMinDays: f.mtoMin ? (f.mtoMin as unknown as number) : null,
+      madeToOrderMaxDays: f.mtoMax ? (f.mtoMax as unknown as number) : null,
       personalizationOptions: persOptions.map((o) => ({
         label: o.label,
         choices: o.choices.map((c) => ({ name: c.name, price: (c.price || "0") as unknown as number, hex: c.hex || undefined })),
@@ -323,6 +329,14 @@ export function ProductForm({ options, product, created }: { options: Options; p
             );
           })}
         </ul>
+        <div className="grid gap-5 border-t border-line pt-5 md:grid-cols-2">
+          <Field label="Plazo de fabricación propio · mínimo (días hábiles)" hint="Opcional. Vacío = el plazo general de Ajustes.">
+            <input className="field" inputMode="numeric" value={f.mtoMin} onChange={(e) => set("mtoMin", e.target.value.replace(/\D/g, ""))} />
+          </Field>
+          <Field label="Plazo de fabricación propio · máximo (días hábiles)">
+            <input className="field" inputMode="numeric" value={f.mtoMax} onChange={(e) => set("mtoMax", e.target.value.replace(/\D/g, ""))} />
+          </Field>
+        </div>
         <button
           type="button"
           className="btn btn-outline min-h-10"

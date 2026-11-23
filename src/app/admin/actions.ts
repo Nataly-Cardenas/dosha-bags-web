@@ -104,6 +104,8 @@ const productSchema = z.object({
   personalizationCharset: z.enum(["letters", "letters_numbers"]),
   personalizationRequired: z.boolean(),
   personalizationNote: z.string().max(300).default(""),
+  madeToOrderMinDays: z.coerce.number().int().min(1).max(60).nullable(),
+  madeToOrderMaxDays: z.coerce.number().int().min(1).max(60).nullable(),
   personalizationOptions: z
     .array(
       z.object({
@@ -154,6 +156,12 @@ export async function saveProductAction(raw: ProductInput): Promise<ActionResult
   if (!parsed.success) return { ok: false, error: firstIssue(parsed.error) };
   const d = parsed.data;
 
+  if ((d.madeToOrderMinDays == null) !== (d.madeToOrderMaxDays == null)) {
+    return { ok: false, error: "Escribe los dos valores del plazo de fabricación propio, o deja ambos vacíos." };
+  }
+  if (d.madeToOrderMinDays != null && d.madeToOrderMaxDays != null && d.madeToOrderMaxDays < d.madeToOrderMinDays) {
+    return { ok: false, error: "En el plazo de fabricación, el máximo debe ser mayor o igual al mínimo." };
+  }
   const colorIds = d.variants.map((v) => v.colorId);
   if (new Set(colorIds).size !== colorIds.length) return { ok: false, error: "Hay colores repetidos en las variantes." };
   const variantIds = new Set(d.variants.map((v) => v.id));
@@ -187,6 +195,8 @@ export async function saveProductAction(raw: ProductInput): Promise<ActionResult
     personalizationRequired: d.personalizationRequired,
     personalizationNote: d.personalizationNote,
     personalizationOptions: d.personalizationOptions,
+    madeToOrderMinDays: d.madeToOrderMinDays,
+    madeToOrderMaxDays: d.madeToOrderMaxDays,
     updatedAt: new Date(),
   };
 
