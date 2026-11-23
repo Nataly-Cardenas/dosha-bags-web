@@ -86,14 +86,14 @@
       "includes": "Incluye 2-3 iniciales bordadas y monedero.",
       "initials": true,
       "colors": ["Negro", "Terracota", "Rosado", "Blanco", "Amarillo"],
-      "images": [["totebag-mini-1", "Negro"]]
+      "images": [["totebag-mini-negro-estudio", "Negro"], ["totebag-mini-1", "Negro"]]
     },
     {
       "ref": "SIENA", "name": "Bolso Siena", "slug": "bolso-siena", "price": 65000,
       "category": "Bolsos", "collection": "bolsos-de-diario",
       "mtoDays": [5, 8],
       "colors": ["Blanco", "Negro", "Café", "Terracota", "Rojo", "Vino"],
-      "images": [["siena-1", "Blanco"], ["siena-2", "Blanco"]]
+      "images": [["siena-estudio", "Blanco"], ["siena-1", "Blanco"], ["siena-2", "Blanco"]]
     },
     {
       "ref": "VICTORIA", "name": "Bag Victoria", "slug": "bag-victoria", "price": 180000,
@@ -103,7 +103,7 @@
       "measures": "52 cm × 31 cm × 16 cm de fondo",
       "mtoDays": [5, 8],
       "colors": ["Negro", "Café", "Nude"],
-      "images": [["victoria-cafe", "Café"], ["victoria-nude", "Nude"], ["victoria-negro", "Negro"], ["victoria-2", null]]
+      "images": [["victoria-cafe-estudio", "Café"], ["victoria-cafe", "Café"], ["victoria-nude", "Nude"], ["victoria-negro", "Negro"], ["victoria-2", null]]
     },
     {
       "ref": "PREMIUM", "name": "Bolso Premium", "slug": "bolso-premium", "price": 150000,
@@ -112,7 +112,7 @@
       "includes": "Incluye 2-3 iniciales bordadas, trae un bolsillo interno y viene con broches a los lados para mayor seguridad.",
       "initials": true,
       "colors": ["Blanco", "Negro", "Vino", "Café"],
-      "images": [["premium-negro", "Negro"], ["premium-blanco", "Blanco"]]
+      "images": [["premium-blanco-estudio", "Blanco"], ["premium-negro", "Negro"], ["premium-blanco", "Blanco"]]
     },
     {
       "ref": "PREMIUM-II", "name": "Bolso Premium II", "slug": "bolso-premium-ii", "price": 170000,
@@ -121,7 +121,7 @@
       "includes": "Incluye 2-3 iniciales bordadas, viene con cierre para mayor seguridad e incluye compartimento para el computador.",
       "initials": true,
       "colors": ["Blanco", "Negro", "Vino", "Café"],
-      "images": [["premium-ii-blanco", "Blanco"], ["premium-ii-2", null]]
+      "images": [["premium-ii-bronce", null], ["premium-ii-blanco", "Blanco"], ["premium-ii-2", null]]
     },
     {
       "ref": "AURA", "name": "Bolso Aura", "slug": "bolso-aura", "price": 130000,

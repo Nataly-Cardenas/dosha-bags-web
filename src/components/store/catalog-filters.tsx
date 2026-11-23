@@ -77,15 +77,15 @@ export function CatalogFilters({
     filters.personalizable,
   ].filter(Boolean).length;
 
-  const panel = (
+  const panel = (prefix: string) => (
     <div className="space-y-8">
       {!hideCollection && facets.collections.length > 0 && (
         <Group title="Colección">
-          <Choice label="Todas" checked={!filters.coleccion} onSelect={() => update({ coleccion: null })} name="coleccion" />
+          <Choice label="Todas" checked={!filters.coleccion} onSelect={() => update({ coleccion: null })} name={`${prefix}-coleccion`} />
           {facets.collections.map((c) => (
             <Choice
               key={c.slug}
-              name="coleccion"
+              name={`${prefix}-coleccion`}
               label={c.name}
               checked={filters.coleccion === c.slug}
               onSelect={() => update({ coleccion: c.slug })}
@@ -95,11 +95,11 @@ export function CatalogFilters({
       )}
       {facets.categories.length > 0 && (
         <Group title="Categoría">
-          <Choice label="Todas" checked={!filters.categoria} onSelect={() => update({ categoria: null })} name="categoria" />
+          <Choice label="Todas" checked={!filters.categoria} onSelect={() => update({ categoria: null })} name={`${prefix}-categoria`} />
           {facets.categories.map((c) => (
             <Choice
               key={c.slug}
-              name="categoria"
+              name={`${prefix}-categoria`}
               label={c.name}
               checked={filters.categoria === c.slug}
               onSelect={() => update({ categoria: c.slug })}
@@ -129,11 +129,11 @@ export function CatalogFilters({
         </Group>
       )}
       <Group title="Precio">
-        <Choice label="Todos" name="precio" checked={priceKey === "-"} onSelect={() => update({ min: null, max: null })} />
+        <Choice label="Todos" name={`${prefix}-precio`} checked={priceKey === "-"} onSelect={() => update({ min: null, max: null })} />
         {PRICE_RANGES.map((r) => (
           <Choice
             key={r.label}
-            name="precio"
+            name={`${prefix}-precio`}
             label={r.label}
             checked={priceKey === `${r.min}-${r.max}`}
             onSelect={() => update({ min: r.min || null, max: r.max || null })}
@@ -141,16 +141,16 @@ export function CatalogFilters({
         ))}
       </Group>
       <Group title="Disponibilidad">
-        <Choice label="Todas" name="disp" checked={!filters.disponibilidad} onSelect={() => update({ disponibilidad: null })} />
+        <Choice label="Todas" name={`${prefix}-disp`} checked={!filters.disponibilidad} onSelect={() => update({ disponibilidad: null })} />
         <Choice
           label="Entrega inmediata"
-          name="disp"
+          name={`${prefix}-disp`}
           checked={filters.disponibilidad === "inmediata"}
           onSelect={() => update({ disponibilidad: "inmediata" })}
         />
         <Choice
           label="Bajo pedido"
-          name="disp"
+          name={`${prefix}-disp`}
           checked={filters.disponibilidad === "encargo"}
           onSelect={() => update({ disponibilidad: "encargo" })}
         />
@@ -222,7 +222,7 @@ export function CatalogFilters({
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[220px_1fr]">
         <aside className="hidden lg:block" aria-label="Filtros">
-          {panel}
+          {panel("d")}
         </aside>
         <div className={`transition-opacity ${pending ? "opacity-60" : ""}`}>{children}</div>
       </div>
@@ -243,7 +243,7 @@ export function CatalogFilters({
               <IconClose size={22} />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-5">{panel}</div>
+          <div className="flex-1 overflow-y-auto p-5">{panel("m")}</div>
           <div className="border-t border-line p-4">
             <button type="button" className="btn btn-primary w-full" onClick={() => setOpen(false)}>
               Ver {total} {total === 1 ? "producto" : "productos"}

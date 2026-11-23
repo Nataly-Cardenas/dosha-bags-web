@@ -52,7 +52,9 @@ Nunca compartas contraseñas ni claves por chat: todas se escriben directamente 
 
 ## Paso 5 · Publicar
 
-1. Ve a **Deployments**, abre el último despliegue y pulsa **⋯ → Redeploy**.
+1. Ve a la pestaña **Deployments**. En la fila del despliegue más reciente, a la derecha, pulsa los **tres puntos (⋯)** → **Redeploy** → confirma con **Redeploy**.
+   - En el celular la fila es estrecha: abre el despliegue tocándolo y busca los tres puntos (⋯) arriba a la derecha.
+   - Si no ves el botón, no hace falta: **cada vez que se suben cambios a GitHub, Vercel publica solo** una versión nueva.
 2. Al terminar verás el aviso **Ready**. En el registro del despliegue debe aparecer:
    `✔ Migraciones aplicadas` y `✔ Cuenta administradora creada para …`.
 3. Abre la dirección de tu tienda. En el primer despliegue se cargan **automáticamente los 19 productos del catálogo**

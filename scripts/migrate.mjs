@@ -6,7 +6,7 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import bcrypt from "bcryptjs";
-import { importCatalog } from "./import-catalog.mjs";
+import { importCatalog, syncCatalogImages } from "./import-catalog.mjs";
 
 // Para migrar se prefiere la conexión directa de Neon (sin pooler) si existe.
 const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
@@ -64,6 +64,7 @@ try {
 
   // Catálogo real de Dosha Bags: se carga solo la primera vez (tienda sin productos).
   await importCatalog(sql);
+  await syncCatalogImages(sql);
 
   // Limpieza ligera de sesiones vencidas e intentos de acceso antiguos.
   await sql`delete from admin_sessions where expires_at < now()`;

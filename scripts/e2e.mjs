@@ -137,6 +137,12 @@ await step("Búsqueda en la tienda encuentra el producto", async () => {
   await page.getByRole("heading", { name: NAME }).waitFor();
   expect((await page.locator("article").count()) === 1, "la búsqueda debería devolver 1 producto");
 });
+await step("El filtro activo aparece marcado", async () => {
+  await page.goto(`${BASE}/tienda?categoria=totebags`);
+  const aside = page.getByRole("complementary", { name: "Filtros" });
+  expect(await aside.getByRole("radio", { name: "Totebags" }).isChecked(), "Totebags no está marcado");
+  expect(await aside.getByRole("radio", { name: "Todas" }).first().isChecked(), "Colección «Todas» no está marcada");
+});
 await step("Filtro por disponibilidad «bajo pedido» incluye el Neceser", async () => {
   await page.goto(`${BASE}/tienda?disponibilidad=encargo`);
   await page.getByRole("heading", { name: "Neceser", exact: true }).waitFor();

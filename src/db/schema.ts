@@ -66,6 +66,8 @@ export const settings = pgTable("settings", {
 
   /** Fecha en que se cargó automáticamente el catálogo inicial (evita repetirlo). */
   catalogImportedAt: timestamp("catalog_imported_at", { withTimezone: true }),
+  /** Fotos del catálogo ya aplicadas (para agregar solo las nuevas en cada despliegue). */
+  catalogImagesApplied: text("catalog_images_applied").array().notNull().default([]),
 
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });

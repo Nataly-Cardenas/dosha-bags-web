@@ -15,6 +15,13 @@
       "when": 1795408909297,
       "tag": "0001_plazos_por_producto",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795409450666,
+      "tag": "0002_fotos_catalogo_aplicadas",
+      "breakpoints": true
     }
   ]
 }

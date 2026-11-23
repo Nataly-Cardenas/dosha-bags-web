@@ -134,13 +134,63 @@ export async function importCatalog(sql, { force = false } = {}) {
       }
     }
 
+    const allNames = catalog.products.flatMap((p) => p.images.map(([n]) => n));
     await tx`update settings set
+      catalog_images_applied = ${allNames},
       catalog_imported_at = now(),
       hero_image_url = coalesce(hero_image_url, ${images["essential-vino"].url}),
       editorial_image_url = coalesce(editorial_image_url, ${images["essential-crema"].url})
       where id = 1`;
   });
   console.log(`✔ Catálogo importado: ${pending.length} productos con sus fotos`);
+}
+
+/**
+ * Fotos nuevas agregadas a catalog.json después de la primera importación:
+ * se suben y se colocan al principio de la galería del producto, una sola vez.
+ * Si la propietaria borra una foto, no vuelve a aparecer.
+ * @param {import("postgres").Sql} sql
+ */
+export async function syncCatalogImages(sql) {
+  const [settings] = await sql`select catalog_imported_at, catalog_images_applied from settings where id = 1`;
+  if (!settings?.catalog_imported_at) return;
+  if (process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN) return;
+  const catalog = JSON.parse(await readFile(path.join(DIR, "catalog.json"), "utf8"));
+  let applied = new Set(settings.catalog_images_applied ?? []);
+
+  // Tiendas importadas antes de existir este registro: se consideran aplicadas las fotos que ya están en uso.
+  if (applied.size === 0) {
+    const used = await sql`select url from product_images union select image_url from collections where image_url is not null`;
+    for (const { url } of used) {
+      const m = url.match(/catalogo-([a-z0-9-]+?)(?:-[A-Za-z0-9]{20,})?\.webp$/);
+      if (m) applied.add(m[1]);
+    }
+  }
+
+  const products = await sql`select id, reference from products`;
+  const byRef = new Map(products.map((p) => [p.reference, p.id]));
+  let added = 0;
+  for (const p of catalog.products) {
+    const productId = byRef.get(p.ref);
+    const fresh = p.images.map(([n, c], i) => ({ n, c, i })).filter(({ n }) => !applied.has(n));
+    if (!fresh.length) continue;
+    if (!productId) {
+      fresh.forEach(({ n }) => applied.add(n));
+      continue;
+    }
+    const variants = await sql`select v.id, c.name from product_variants v join colors c on c.id = v.color_id where v.product_id = ${productId}`;
+    for (const { n, c, i } of fresh) {
+      const im = await storeImage(n);
+      const variantId = c ? variants.find((v) => v.name === c)?.id ?? null : null;
+      const alt = c ? `${p.name} color ${c.toLowerCase()}` : p.name;
+      await sql`insert into product_images (product_id, variant_id, url, alt, width, height, sort_order)
+        values (${productId}, ${variantId}, ${im.url}, ${alt}, ${im.width}, ${im.height}, ${i - 1000})`;
+      applied.add(n);
+      added++;
+    }
+  }
+  await sql`update settings set catalog_images_applied = ${[...applied]} where id = 1`;
+  if (added) console.log(`✔ Catálogo: ${added} foto(s) nueva(s) agregada(s)`);
 }
 
 // Ejecución manual: npm run db:catalog
@@ -150,6 +200,7 @@ if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1])))
   const sql = postgres(process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL, { max: 1, prepare: false, onnotice: () => {} });
   try {
     await importCatalog(sql, { force: true });
+    await syncCatalogImages(sql);
   } finally {
     await sql.end();
   }
