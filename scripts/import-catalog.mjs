@@ -4,10 +4,9 @@
 //   cuando la tienda todavía no tiene productos (queda registrado en settings.catalog_imported_at).
 // • Manual: `npm run db:catalog` agrega los productos cuya referencia aún no exista
 //   (no modifica ni borra los que ya están).
-import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { put } from "@vercel/blob";
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), "..");
 const DIR = path.join(ROOT, "catalog-import");
@@ -15,24 +14,12 @@ const DIR = path.join(ROOT, "catalog-import");
 const slugify = (s) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
+// Las fotos del catálogo viven en public/catalogo/ y se publican con la web (CDN de Vercel):
+// no dependen de Vercel Blob, que solo se usa para las fotos que se suben desde el panel.
 async function storeImage(name) {
-  const file = path.join(DIR, "images", `${name}.webp`);
-  const data = await readFile(file);
+  const data = await readFile(path.join(ROOT, "public", "catalogo", `${name}.webp`));
   const meta = await sharp(data).metadata();
-  const key = `productos/catalogo-${name}.webp`;
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(key, data, {
-      access: "public",
-      contentType: "image/webp",
-      allowOverwrite: true,
-      cacheControlMaxAge: 60 * 60 * 24 * 365,
-    });
-    return { url: blob.url, width: meta.width, height: meta.height };
-  }
-  const target = path.join(ROOT, ".uploads", key);
-  await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(target, data);
-  return { url: `/api/uploads/${key}`, width: meta.width, height: meta.height };
+  return { url: `/catalogo/${name}.webp`, width: meta.width, height: meta.height };
 }
 
 /** @param {import("postgres").Sql} sql */
@@ -46,11 +33,6 @@ export async function importCatalog(sql, { force = false } = {}) {
       return;
     }
   }
-  if (process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN) {
-    console.warn("⚠ Catálogo no importado todavía: conecta Vercel Blob (Storage → Blob) y vuelve a desplegar.");
-    return;
-  }
-
   const catalog = JSON.parse(await readFile(path.join(DIR, "catalog.json"), "utf8"));
   const existingRefs = new Set((await sql`select reference from products`).map((r) => r.reference));
   const pending = catalog.products.filter((p) => !existingRefs.has(p.ref));
@@ -154,7 +136,6 @@ export async function importCatalog(sql, { force = false } = {}) {
 export async function syncCatalogImages(sql) {
   const [settings] = await sql`select catalog_imported_at, catalog_images_applied from settings where id = 1`;
   if (!settings?.catalog_imported_at) return;
-  if (process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN) return;
   const catalog = JSON.parse(await readFile(path.join(DIR, "catalog.json"), "utf8"));
   let applied = new Set(settings.catalog_images_applied ?? []);
 
@@ -162,7 +143,7 @@ export async function syncCatalogImages(sql) {
   if (applied.size === 0) {
     const used = await sql`select url from product_images union select image_url from collections where image_url is not null`;
     for (const { url } of used) {
-      const m = url.match(/catalogo-([a-z0-9-]+?)(?:-[A-Za-z0-9]{20,})?\.webp$/);
+      const m = url.match(/catalogo[-/]([a-z0-9-]+?)(?:-[A-Za-z0-9]{20,})?\.webp$/);
       if (m) applied.add(m[1]);
     }
   }

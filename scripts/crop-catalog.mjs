@@ -1,6 +1,6 @@
 // Herramienta de una sola vez: recorta las fotos del catálogo PDF (páginas exportadas como imagen).
 // Coordenadas en una página de referencia de 827 px de ancho.
-// Uso: node scripts/crop-catalog.mjs <carpeta-con-p-000.png...> <carpeta-salida>
+// Uso: node scripts/crop-catalog.mjs <carpeta-con-p-000.png...> public/catalogo
 import sharp from "sharp";
 import path from "node:path";
 

@@ -167,7 +167,7 @@ export async function saveProductAction(raw: ProductInput): Promise<ActionResult
   const variantIds = new Set(d.variants.map((v) => v.id));
   for (const img of d.images) {
     if (img.variantId && !variantIds.has(img.variantId)) img.variantId = null;
-    if (!img.url.startsWith("/api/uploads/") && !/^https:\/\/[a-z0-9.-]+\.public\.blob\.vercel-storage\.com\//.test(img.url)) {
+    if (!img.url.startsWith("/api/uploads/") && !/^\/catalogo\/[a-z0-9-]+\.webp$/.test(img.url) && !/^https:\/\/[a-z0-9.-]+\.public\.blob\.vercel-storage\.com\//.test(img.url)) {
       return { ok: false, error: "Una de las fotos no es válida. Vuelve a subirla." };
     }
   }
