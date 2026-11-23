@@ -46,19 +46,26 @@ try {
     ) on conflict (id) do nothing`;
   console.log("✔ Configuración inicial verificada");
 
-  // Primera administradora (solo si no existe ninguna).
+  // Cuenta administradora.
+  // • Si no existe ninguna, se crea con ADMIN_EMAIL (o ADMIN_INITIAL_EMAIL) y ADMIN_INITIAL_PASSWORD.
+  // • Recuperación: con ADMIN_RESET=1, la contraseña de ese correo se reemplaza por ADMIN_INITIAL_PASSWORD
+  //   (y se cierran sus sesiones). Después hay que borrar ADMIN_RESET en Vercel.
+  const email = (process.env.ADMIN_EMAIL || process.env.ADMIN_INITIAL_EMAIL || "").trim().toLowerCase();
+  const password = process.env.ADMIN_INITIAL_PASSWORD ?? "";
+  const reset = ["1", "true", "si", "sí"].includes((process.env.ADMIN_RESET ?? "").trim().toLowerCase());
   const [{ count }] = await sql`select count(*)::int as count from admin_users`;
-  if (count === 0) {
-    const email = (process.env.ADMIN_EMAIL ?? "").trim().toLowerCase();
-    const password = process.env.ADMIN_INITIAL_PASSWORD ?? "";
-    if (email && password.length >= 10) {
-      const hash = await bcrypt.hash(password, 12);
-      await sql`insert into admin_users (email, name, password_hash) values (${email}, 'Administradora', ${hash})`;
-      console.log(`✔ Cuenta administradora creada para ${email}`);
-    } else {
+  if (count === 0 || reset) {
+    if (!email || password.length < 10) {
       console.warn(
-        "⚠ No hay cuentas administradoras. Define ADMIN_EMAIL y ADMIN_INITIAL_PASSWORD (mínimo 10 caracteres) y vuelve a desplegar.",
+        "⚠ No se pudo crear/restablecer la cuenta administradora: define ADMIN_EMAIL y ADMIN_INITIAL_PASSWORD (mínimo 10 caracteres) y vuelve a desplegar.",
       );
+    } else {
+      const hash = await bcrypt.hash(password, 12);
+      const [user] = await sql`insert into admin_users (email, name, password_hash) values (${email}, 'Administradora', ${hash})
+        on conflict (email) do update set password_hash = excluded.password_hash returning id`;
+      await sql`delete from admin_sessions where user_id = ${user.id}`;
+      if (reset) console.log(`✔ Contraseña restablecida para ${email}. Borra la variable ADMIN_RESET en Vercel.`);
+      else console.log(`✔ Cuenta administradora creada para ${email}`);
     }
   }
 

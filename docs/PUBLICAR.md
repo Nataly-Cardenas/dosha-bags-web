@@ -32,7 +32,7 @@ Nunca compartas contraseñas ni claves por chat: todas se escriben directamente 
 
    | Nombre | Valor |
    | --- | --- |
-   | `ADMIN_EMAIL` | El correo con el que la propietaria entrará al panel |
+   | `ADMIN_EMAIL` (también vale `ADMIN_INITIAL_EMAIL`) | El correo con el que la propietaria entrará al panel |
    | `ADMIN_INITIAL_PASSWORD` | Una contraseña temporal de al menos 10 caracteres (se cambia después) |
    | `NEXT_PUBLIC_SITE_URL` | Por ahora `https://dosha-bags.vercel.app` (o el nombre que te asigne Vercel) |
 
@@ -107,5 +107,6 @@ Nunca compartas contraseñas ni claves por chat: todas se escriben directamente 
 | «No hay cuentas administradoras» en el registro | Revisa `ADMIN_EMAIL` y `ADMIN_INITIAL_PASSWORD` (mínimo 10 caracteres) y haz Redeploy. |
 | Al subir fotos: «Falta conectar Vercel Blob» | Repite el Paso 4 y haz Redeploy. |
 | El carrito dice «La tienda aún no ha configurado su WhatsApp» | Panel → Ajustes → Número de WhatsApp. |
-| Olvidaste la contraseña del panel | Otra administradora puede restablecerla en **Mi cuenta**. Si no hay otra, la persona que desarrolla puede crear un acceso nuevo. |
+| Olvidaste la contraseña del panel | Otra administradora puede restablecerla en **Mi cuenta**. Si no hay otra: en Vercel → **Settings → Environment Variables**, edita `ADMIN_INITIAL_PASSWORD` con una contraseña nueva (⋯ → **Edit**), agrega la variable `ADMIN_RESET` con valor `1` y haz **Redeploy**. Entra con la nueva contraseña y luego **borra** `ADMIN_RESET`. |
+| No puedes ver el valor de una variable (aparece un candado) | Vercel guarda las variables «sensibles» sin mostrarlas. No se pueden ver, solo reemplazar con ⋯ → **Edit**. |
 | «Demasiados intentos» al entrar | Espera 15 minutos (protección contra ataques). |
